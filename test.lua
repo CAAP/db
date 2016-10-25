@@ -5,7 +5,7 @@ local sql = require'carlos.sqlite'
 local conn = sql.connect'/db/inventario.db'
 
 assert(conn.exec'DROP VIEW IF EXISTS compras')
-assert(conn.exec'CREATE VIEW IF NOT EXISTS stock AS SELECT faltantes.clave, obs, proveedor FROM proveedores, faltantes WHERE proveedores.clave = faltantes.clave')
+assert(conn.exec'CREATE VIEW IF NOT EXISTS stock AS SELECT faltantes.clave, faltante, obs, proveedor FROM proveedores, faltantes WHERE proveedores.clave = faltantes.clave')
 
 conn = sql.connect'/db/ferre.db'
 
