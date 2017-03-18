@@ -14,11 +14,11 @@ assert(conn.exec'UPDATE proveedores SET proveedor = "X" WHERE proveedor LIKE " "
 
 conn = sql.connect'/db/ferre.db'
 
-assert(conn.exec'CREATE TABLE IF NOT EXISTS tags ( id INTEGER PRIMARY KEY, nombre )')
-assert(conn.exec"INSERT INTO tags VALUES (97, 'presupuesto')")
-assert(conn.exec"INSERT INTO tags VALUES (98, 'ticket')")
-assert(conn.exec"INSERT INTO tags VALUES (99, 'facturar')")
-assert(conn.exec"INSERT INTO tags VALUES (103, 'guardar')")
+assert(conn.exec'CREATE TABLE IF NOT EXISTS tags ( id PRIMARY KEY, nombre )')
+assert(conn.exec"INSERT INTO tags VALUES ('a', 'presupuesto')")
+assert(conn.exec"INSERT INTO tags VALUES ('b', 'ticket')")
+assert(conn.exec"INSERT INTO tags VALUES ('c', 'facturar')")
+assert(conn.exec"INSERT INTO tags VALUES ('g', 'guardar')")
 
 
 --[[
