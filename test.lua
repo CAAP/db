@@ -1,8 +1,29 @@
 #!/usr/local/bin/lua
 
 local sql = require'carlos.sqlite'
+local fd = require'carlos.fold'
+local popen = io.popen
 
-local conn = sql.connect'/db/inventario.db'
+local conn = sql.connect'personas.db'
+
+local personas = fd.reduce(conn.query'SELECT * FROM empleados', fd.map(function(o) return o.nombre end), fd.into, {})
+
+
+local function people(f)
+    local conn = sql.connect(f)
+    print(f, '\n')
+    conn.exec'ALTER TABLE tickets ADD COLUMN nombre DEFAULT "NaP"'
+
+end
+
+
+local files = popen('ls Y20*.db', 'r')
+
+for f in files:lines() do people(f) end
+
+files:close()
+
+--local conn = sql.connect'/db/inventario.db'
 
 --[[
 assert(conn.exec'DROP VIEW IF EXISTS compras')
@@ -12,6 +33,7 @@ assert(conn.exec'UPDATE proveedores SET proveedor = UPPER(proveedor)')
 assert(conn.exec'UPDATE proveedores SET proveedor = "X" WHERE proveedor LIKE " "')
 --]]
 
+--[[
 conn = sql.connect'/db/ferre.db'
 
 assert(conn.exec'CREATE TABLE IF NOT EXISTS tags ( id PRIMARY KEY, nombre )')
@@ -19,7 +41,6 @@ assert(conn.exec"INSERT INTO tags VALUES ('a', 'presupuesto')")
 assert(conn.exec"INSERT INTO tags VALUES ('b', 'ticket')")
 assert(conn.exec"INSERT INTO tags VALUES ('c', 'facturar')")
 assert(conn.exec"INSERT INTO tags VALUES ('g', 'guardar')")
-
 
 --[[
 assert(conn.exec'DROP VIEW IF EXISTS precios')
